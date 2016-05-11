@@ -56,5 +56,9 @@ int main(){
 			}
 	}
 
+	shmdt(ptr); // detachement du segment memoire
+	shmctl(shmid, IPC_RMID,0); // destruction du segment memoire
+	printf("Segment memoire supprime.\n");
+
 	return 0;
 }
