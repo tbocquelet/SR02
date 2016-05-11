@@ -4,10 +4,9 @@
 int main(){
 
 	int shmflag=PROT|IPC_CREAT; 
-	key_t key=5854;
 	// shmget cree un segment de memoire partagee et retourne son id
 	int shmid;
-	shmid = shmget(key,512,shmflag); // creation du segment memoire
+	shmid = shmget(IPC_PRIVATE,512,shmflag); // creation du segment memoire
 	if(shmid==-1) perror("Creation echoue");
 
 	int *ptr;
