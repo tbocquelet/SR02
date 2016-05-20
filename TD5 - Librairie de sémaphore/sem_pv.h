@@ -10,3 +10,11 @@
 #include <sys/mman.h>
 #include <time.h>
 
+#define N_SEM 5
+int init_semaphore(void);
+int detruire_semaphore(void);
+int val_sem(int sem, int val);
+int P(int sem);
+int V(int sem);
+
+
