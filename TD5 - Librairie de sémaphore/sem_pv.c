@@ -1,17 +1,25 @@
 #include "sem_pv.h"
-
+#define CLE 1234
 // Pour le .o : gcc -c sem_pv.c --> sem_pv.o
 // Pour la libraire : ar rvs libsempv.a sem_pv.o
 
+// Affichage des semaphores : ipcs
+// Suppression manuelle d'un semaphore ipcrm -s IDsem
 
-int semid=-2;
+int semid;
 
 int init_semaphore(){
 
 	errno = 0; // pour la gestion des erreurs
-
-	int shmflag = IPC_CREAT|IPC_EXCL; 
-	semid = semget(IPC_PRIVATE,N_SEM,shmflag); 
+	key_t key=CLE;
+	
+// Il faut ajouter SEM_A et SEM_R aux flags pour obtenir respectivement :
+// 		le droit de modifier le semaphore
+// 		le droit de lire le semaphore
+// 		
+	int shmflag = IPC_CREAT|IPC_EXCL|SEM_A|SEM_R; 
+	// semid = semget(IPC_PRIVATE,N_SEM,shmflag);
+	semid = semget(key,N_SEM,shmflag); 
 	// on teste si il y a eu des erreurs
 	if(semid == -1) {
 		if (errno == 17){ // EEXIST = 17, erreur retournee lorsque le semaphore existe deja
@@ -44,6 +52,10 @@ int detruire_semaphore() {
 		fprintf(stderr, "ERREUR : merci d'appeller init_semaphore en premier.\n");
 		return -1;
 	}
+	if (retour == -1) {
+		perror("ERREUR");
+		return -1;
+	}
 
 	printf("Semaphore detruit !\n");
 	return retour;
@@ -55,7 +67,7 @@ int val_sem(int sem, int val){
 
 	union semun argument;
 	argument.val=val;
-
+	
 	int retour; // variable pour stocker la valeur de retour de semctl
 	retour=semctl(semid, sem, SETVAL, argument);
 
@@ -69,10 +81,12 @@ int val_sem(int sem, int val){
 			fprintf(stderr, "ERREUR : merci d'indiquer un semnum correct.\n");
 			return -2;
 		}
+		perror("AUTRE ERREUR");
+		return -3;
 	}
-
+	
 	printf("Valeur du sempahore modifee !\n");
-	return retour;
+	return retour;	
 }
 
 int P(int sem){ 
@@ -96,6 +110,8 @@ int P(int sem){
 			fprintf(stderr, "ERREUR : merci d'indiquer un semnum correct.\n");
 			return -2;
 		}
+		perror("AUTRE ERREUR");
+		return -3;
 	}
 
 	printf("Operation P appliquee ! \n");
@@ -123,6 +139,8 @@ int V(int sem){
 			fprintf(stderr, "ERREUR : merci d'indiquer un semnum correct.\n");
 			return -2;
 		}
+		perror("AUTRE ERREUR");
+		return -3;
 	}
 
 	printf("Operation V appliquee ! \n");
