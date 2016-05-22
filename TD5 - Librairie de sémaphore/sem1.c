@@ -6,23 +6,23 @@
 int main(){
 
 	int retour;
-   	int i=1;
+   	
 	retour = init_semaphore();
-    printf("%d. Valeur de retour pour init_semaphore : %d\n\n", i++, retour );
+    printf("Valeur de retour pour init_semaphore : %d\n\n", retour );
     
     retour = val_sem(2,1);
-	printf("%d. Valeur de retour pour val_sem : %d\n\n", i++, retour );
+	printf("Valeur de retour pour val_sem : %d\n\n", retour );
     
     retour = P(2);
-	printf("%d. Valeur de retour pour P : %d\n\n", i++, retour );
+	printf("Valeur de retour pour P : %d\n\n", retour );
 	
     sleep(10);
     
     retour = V(2);
-	printf("%d. Valeur de retour pour V : %d\n\n", i++, retour );
+	printf("Valeur de retour pour V : %d\n\n", retour );
     
     retour = detruire_semaphore();
-	printf("%d. Valeur de retour pour detruire_semaphore : %d\n\n", i++, retour );
+	printf("Valeur de retour pour detruire_semaphore : %d\n\n", retour );
     
 	return 0;
 }

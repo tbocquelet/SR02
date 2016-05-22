@@ -9,6 +9,7 @@
 #include <sys/wait.h>
 #include <sys/mman.h>
 #include <time.h>
+#include <string.h>
 
 #define N_SEM 5
 int init_semaphore();

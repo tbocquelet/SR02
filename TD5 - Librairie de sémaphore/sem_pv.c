@@ -1,5 +1,5 @@
 #include "sem_pv.h"
-#define CLE 1234
+
 // Pour le .o : gcc -c sem_pv.c --> sem_pv.o
 // Pour la libraire : ar rvs libsempv.a sem_pv.o
 
@@ -11,23 +11,22 @@ int semid;
 int init_semaphore(){
 
 	errno = 0; // pour la gestion des erreurs
-	key_t key=CLE;
 	
 // Il faut ajouter SEM_A et SEM_R aux flags pour obtenir respectivement :
 // 		le droit de modifier le semaphore
 // 		le droit de lire le semaphore
-// 		
+
 	int shmflag = IPC_CREAT|IPC_EXCL|SEM_A|SEM_R; 
-	// semid = semget(IPC_PRIVATE,N_SEM,shmflag);
-	semid = semget(key,N_SEM,shmflag); 
+	semid = semget(IPC_PRIVATE,N_SEM,shmflag);
+	
 	// on teste si il y a eu des erreurs
 	if(semid == -1) {
 		if (errno == 17){ // EEXIST = 17, erreur retournee lorsque le semaphore existe deja
-			fprintf(stderr, "ERREUR : le semaphore existe deja.\n");
+			fprintf(stderr,"%s", "ERREUR : le semaphore existe deja.\n");
 			return -1;
 		}	
 		else {
-			fprintf(stderr, "ERREUR : creation echoue.\n");
+			fprintf(stderr,"%s", "ERREUR : creation echoue.\n");
 			return -2;
 		}
 	}
@@ -49,7 +48,7 @@ int detruire_semaphore() {
 
 	// on teste si il n'y a pas eu d'erreur
 	if (errno == 22) { // EINVAL = 22 : semid a une valeur invalide 
-		fprintf(stderr, "ERREUR : merci d'appeller init_semaphore en premier.\n");
+		fprintf(stderr,"%s", "ERREUR : merci d'appeller init_semaphore en premier.\n");
 		return -1;
 	}
 	if (retour == -1) {
@@ -74,11 +73,11 @@ int val_sem(int sem, int val){
 	// on teste s'il n'y a pas eu d'erreurs
 	if(retour == -1) {
 		if (errno==22) { // EINVAL = 22 : semid a une valeur invalide 
-			fprintf(stderr, "ERREUR : merci d'appeller init_semaphore en premier.\n");
+			fprintf(stderr,"%s", "ERREUR : merci d'appeller init_semaphore en premier.\n");
 			return -1;
 		}
 		if (sem<0 || sem>(N_SEM-1)) {  // si semnum n'est pas compris entre 0 et (N_SEM-1) alors il y a erreur
-			fprintf(stderr, "ERREUR : merci d'indiquer un semnum correct.\n");
+			fprintf(stderr,"%s", "ERREUR : merci d'indiquer un semnum correct.\n");
 			return -2;
 		}
 		perror("AUTRE ERREUR");
@@ -103,11 +102,11 @@ int P(int sem){
 	// on teste s'il n'y a pas eu d'erreurs
 	if(retour == -1) {
 		if (errno == 22) { // EINVAL = 22 : semid a une valeur invalide 
-			fprintf(stderr, "ERREUR : merci d'appeller init_semaphore en premier.\n");
+			fprintf(stderr,"%s", "ERREUR : merci d'appeller init_semaphore en premier.\n");
 			return -1;
 		}
 		if (errno == 27) {  // EFBIG = 27 : si semnum n'est pas compris entre 0 et (N_SEM-1) alors il y a erreur
-			fprintf(stderr, "ERREUR : merci d'indiquer un semnum correct.\n");
+			fprintf(stderr,"%s", "ERREUR : merci d'indiquer un semnum correct.\n");
 			return -2;
 		}
 		perror("AUTRE ERREUR");
@@ -132,11 +131,11 @@ int V(int sem){
 	// on teste s'il n'y a pas eu d'erreurs
 	if(retour == -1) {
 		if (errno==22) { // EINVAL = 22 : semid a une valeur invalide 
-			fprintf(stderr, "ERREUR : merci d'appeller init_semaphore en premier.\n");
+			fprintf(stderr,"%s", "ERREUR : merci d'appeller init_semaphore en premier.\n");
 			return -1;
 		}
 		if (errno == 27) {  // EFBIG = 27 : si semnum n'est pas compris entre 0 et (N_SEM-1) alors il y a erreur
-			fprintf(stderr, "ERREUR : merci d'indiquer un semnum correct.\n");
+			fprintf(stderr,"%s", "ERREUR : merci d'indiquer un semnum correct.\n");
 			return -2;
 		}
 		perror("AUTRE ERREUR");
