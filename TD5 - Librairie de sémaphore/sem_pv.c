@@ -84,7 +84,7 @@ int val_sem(int sem, int val){
 		return -3;
 	}
 	
-	printf("Valeur du sempahore modifee !\n");
+	printf("Valeur du sempahore modifiee !\n");
 	return retour;	
 }
 
@@ -113,7 +113,7 @@ int P(int sem){
 		return -3;
 	}
 
-	printf("Operation P appliquee ! \n");
+	//printf("Operation P appliquee ! \n");
 	return retour;
 }
 
@@ -142,7 +142,7 @@ int V(int sem){
 		return -3;
 	}
 
-	printf("Operation V appliquee ! \n");
+	//printf("Operation V appliquee ! \n");
 	return retour;
 }
 
