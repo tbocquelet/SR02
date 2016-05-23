@@ -35,7 +35,7 @@ int main(){
 	init_semaphore();
 	int mutex=0; // On attribue le sémaphore 0 du groupe
 
-// On initialise mutex à 1 
+// On initialise mutex à 1 : on autorise un seul processus en section critique
 	val_sem(mutex,1);
 
 	pid_t fils;
