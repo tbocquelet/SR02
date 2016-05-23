@@ -84,7 +84,7 @@ int val_sem(int sem, int val){
 		return -3;
 	}
 	
-	printf("Valeur du sempahore modifiee !\n");
+	//printf("Valeur du sempahore modifiee !\n");
 	return retour;	
 }
 
