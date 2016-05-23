@@ -1,26 +1,29 @@
+////////////////////////////////////////////////////////////////////////
+// Camille Soetaert - Théo Bocquelet - Groupe du mercredi 16h30.18h30 //
+////////////////////////////////////////////////////////////////////////
+
 #include "semaph.h"
 #define PROT 0666
 
 int main(){
 
 	int shmflag=PROT|IPC_CREAT; 
-	// shmget cree un segment de memoire partagee et retourne son id
-	int shmid;
-	shmid = shmget(IPC_PRIVATE,512,shmflag); // creation du segment memoire
-	if(shmid == -1) perror("Creation echoue");
+	int shmid; // ID du segment de mémoire partagée
+	shmid = shmget(IPC_PRIVATE,512,shmflag); // Création du segment mémoire
+	if(shmid == -1) perror("Création échouée");
+	else printf("Segment mémoire créé.\n");
 
 	int *ptr;
-	ptr=shmat(shmid,0,shmflag); // attachement du segment
+	ptr=shmat(shmid,0,shmflag); // Attachement du segment
 
 	int E=0;
-	ptr[0]=E; // le segment se manipule sous forme de tableau 
-
+	ptr[0]=E; 
 
 	int i,j;
-// variables du fils
+// Variables du fils
 	int a;
 	int tps;
-// variables du pere
+// Variables du pere
 	int A;
 	int TPS;
 
@@ -30,20 +33,20 @@ int main(){
 		case -1:
 			perror("Probleme fork");
 			break;	
-		case 0: // fils	
+		case 0: // Fils	
 			for (i = 0; i < 100; i++)
 			{
 				a=ptr[0];
-				tps=rand()%(100-20)+20; // genere un temps d'attente entre 20 et 100
+				tps=rand()%(100-20)+20; // Génère un temps d'attente entre 20 et 100
 				usleep(tps);
 				a++;
 				ptr[0]=a;
 				tps=rand()%(100-20)+20; 
 				usleep(tps);
 			}
-			shmdt(ptr);
+			shmdt(ptr); // Détachement du segment mémoire
 			break;
-		default: // pere
+		default: // Père
 			for (j = 0; j < 100; j++)
 			{
 				A=ptr[0];
@@ -55,10 +58,10 @@ int main(){
 				usleep(TPS);
 				printf("Iteration %d | E=%d\n",j,ptr[0]);
 			}
-			wait(0); // on attend la fin du fils
-			shmdt(ptr); // detachement du segment memoire
-			shmctl(shmid, IPC_RMID,0); // destruction du segment memoire
-			printf("Segment memoire supprime.\n");
+			wait(0); // On attend la fin du fils
+			shmdt(ptr); // Détachement du segment mémoire
+			shmctl(shmid, IPC_RMID,0); // Destruction du segment mémoire
+			printf("Segment mémoire supprime.\n");
 	}
 
 	return 0;
