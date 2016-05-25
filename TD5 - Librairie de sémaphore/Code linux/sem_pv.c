@@ -22,7 +22,8 @@ int init_semaphore(){
 // 		le droit de modifier le sémaphore
 // 		le droit de lire le sémaphore
 
-	int shmflag = IPC_CREAT|IPC_EXCL|SEM_A|SEM_R; 
+	//int shmflag = IPC_CREAT|IPC_EXCL|SEM_A|SEM_R; 
+	int shmflag = IPC_CREAT|IPC_EXCL|0666;
 	semid = semget(IPC_PRIVATE,N_SEM,shmflag);  // Création de l'ensemble de sémaphores
 	
 	// On teste si il y a eu des erreurs lors de la création
@@ -38,8 +39,8 @@ int init_semaphore(){
 	}
 
 	union semun argument;
-
-	for (int i = 0; i < N_SEM; i++) { 
+	int i;
+	for (i = 0; i < N_SEM; i++) { 
 		argument.array[i] = 0; 
 	} 
 
