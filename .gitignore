@@ -4,3 +4,17 @@ TD5 - Librairie de sémaphore/excl-mutu-none
 TD5 - Librairie de sémaphore/sem_pv
 
 TD5 - Librairie de sémaphore/sem1
+
+TD5 - Librairie de sémaphore/excl-mutu
+
+TD5 - Librairie de sémaphore/sem_pv.o
+
+*.o
+
+TD5 - Librairie de sémaphore/prod-conso
+
+TD5 - Librairie de sémaphore/sem_pv.o
+
+TD5 - Librairie de sémaphore/Code mac/ex3_autre_maniere
+
+TD5 - Librairie de sémaphore/Code mac/ex3_autre_maniere.c
